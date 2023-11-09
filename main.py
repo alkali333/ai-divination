@@ -1,8 +1,7 @@
 import streamlit as st
 import os
-import random
 from PIL import Image
-
+import secrets
 
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
@@ -54,7 +53,14 @@ major_arcana = {
 
 
 def get_random_cards(num):
-    return random.sample(list(major_arcana.keys()), num)
+    cards = list(major_arcana.keys())
+    selected_cards = set()
+
+    while len(selected_cards) < num:
+        card = secrets.choice(cards)
+        selected_cards.add(card)
+
+    return list(selected_cards)
 
 
 def display_cards(card_info):

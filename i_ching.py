@@ -1,7 +1,6 @@
 import streamlit as st
 import os
-import random
-
+import secrets
 
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
@@ -93,8 +92,9 @@ hexagram_mapping = {
 }
 
 
+# could also implement this with secrets
 def coin_toss():
-    return random.choice([2, 3])  # Tails=2, Heads=3
+    return secrets.choice([2, 3])  # Tails=2, Heads=3
 
 
 def get_line():
