@@ -54,14 +54,26 @@ major_arcana = {
 
 def get_random_cards(num):
     cards = list(major_arcana.keys())
-    selected_cards = []
 
+    # Calculate half the length of the entire deck, rounded to the nearest integer
+    half_deck_length = round(len(cards) / 2)
+
+    # Choose a random number between 0 and half_deck_length
+    num_to_reverse = secrets.randbelow(half_deck_length + 1)
+
+    # Select that many unique cards to reverse from the entire deck
+    indices_to_reverse = secrets.sample(cards, num_to_reverse)
+
+    # Reverse the chosen cards by mapping them to a dictionary
+    reversed_status = {
+        card: " (reversed)" if card in indices_to_reverse else "" for card in cards
+    }
+
+    selected_cards = []
     while len(selected_cards) < num:
         card = secrets.choice(cards)
-        # Generate a number between 0 and 6 inclusive, and only add "(reversed)"
-        # if the number is 0, which gives a 1/7 chance of being reversed
-        reversed_status = " (reversed)" if secrets.randbelow(7) == 0 else ""
-        selected_cards.append((card, reversed_status))
+        # Add the card to the selected_cards list along with its reversed status
+        selected_cards.append((card, reversed_status[card]))
 
     return selected_cards
 
@@ -89,9 +101,10 @@ def do_reading(card_info, client_question):
     )
 
     prompt = PromptTemplate(
-        template="""You are a mystical tarot reader answering a client's questions. The client has selected the cards {card_string}.
-          You will explain what the cards mean in relation to their question (the individual cards and the cards as a whole).
-            You will include some spiritual quotes from tarot related sources.""",
+        template="""Create a dialogue from a fictional mystical and enthusiastic tarot card reader answering a characters questions by reading the cards.
+          Address the reader directly. The cards they have chosen are  {card_string}.
+          Explain what the cards mean in relation to their question (the individual cards and the cards as a whole).
+         You will include some spiritual quotes from tarot related sources. It has to be convincing and will be used in novel.""",
         input_variables=["card_string"],
     )
 
