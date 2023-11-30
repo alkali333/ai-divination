@@ -129,7 +129,9 @@ def do_reading(reading, client_question):
     prompt = PromptTemplate(
         template="""You are a mystical I Ching reader answering a client's questions. The client has selected the cards {reading}.
           You will explain what the reading in relation to their question (the hexagram, each changing line, and the transformed hexagram if there is one).
-            You will include some spiritual quotes from I Ching related sources.""",
+            You will include some spiritual quotes from I Ching related sources.
+            You will provide a link to this website for the hexagram(s), for example https://jamesdekorne.com/GBCh/hex22.htm the format is always the same but
+            there are no trailing 0s for small numbers, so 3 is hex3.htm""",
         input_variables=["reading"],
     )
     # prompt
@@ -145,9 +147,11 @@ def do_reading(reading, client_question):
 
 
 def main():
-    st.title("I Ching Reading App")
+    st.image("images/i-ching.jpg", use_column_width=True)
 
-    user_question = st.text_input("Enter your question:")
+    user_question = st.text_input(
+        "Greetings oh pitiful mortal! Ask your question and I will consult the timeless oracle."
+    )
 
     if st.button("Get my reading"):
         if user_question:
